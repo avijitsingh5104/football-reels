@@ -30,7 +30,7 @@ YOUTUBE_TOKEN  = os.environ["YOUTUBE_TOKEN"]
 
 NICHE          = "Football"
 REEL_DURATION  = 45
-VOICE = "en-US-ChristopherNeural"      # hype & energetic male voice
+VOICE          = "en-US-GuyNeural"      # hype & energetic male voice
 MUSIC_VOLUME   = 0.15
 OUTPUT_DIR     = Path("output")
 ASSETS_DIR     = Path("assets")
