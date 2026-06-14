@@ -1,0 +1,45 @@
+name: Daily Football Reel
+
+on:
+  schedule:
+    # 10:00 AM IST = 04:30 UTC (different time from facts channel)
+    - cron: "30 4 * * *"
+  workflow_dispatch:
+
+jobs:
+  generate-and-post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate & upload reel
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          YOUTUBE_TOKEN:  ${{ secrets.YOUTUBE_TOKEN }}
+        run: python main.py
+
+      - name: Save reel artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: football-reel-${{ github.run_number }}
+          path: output/final_reel.mp4
+          retention-days: 7
