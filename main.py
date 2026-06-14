@@ -155,7 +155,7 @@ Rules:
 Return ONLY the script."""
 
     response = client.models.generate_content(
-        model="gemini-2.0-flash-lite",
+        model="gemma-4-26b-a4b-it",
         contents=prompt
     )
     script = response.text.strip()
